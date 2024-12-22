@@ -6,7 +6,7 @@ This Website provides a minimal setup to get React working in Vite with HMR and 
 
 To get started with this project, follow these steps:
 
-1. **Clone the repository:**
+1. **Clone the repository :**
     ```sh
     git clone https://github.com/shadab-techiosoft/techiosoft.git
     cd techiosoft
