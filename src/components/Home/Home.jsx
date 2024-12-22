@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import video from '../../assets/images/video1.mp4';
 import About from '../About';
 import Projects from '../Projects';
+import Work from '../work/Work';
 const Home = () => {
     const [hoveredSprite, setHoveredSprite] = useState(null);
     const charRefs = useRef([]);
@@ -186,6 +187,7 @@ const Home = () => {
             </div>
             <About />
             <Projects />
+            <Work />
         </>
     );
 }

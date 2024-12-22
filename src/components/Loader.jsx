@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import Matter from "matter-js";
 
-const Loader = () => {
+const Loader = ({ stopLoading }) => {
   const sceneRef = useRef(null);
 
   useEffect(() => {
     const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint } = Matter;
-
     // Create Matter.js engine
     const engine = Engine.create();
     const world = engine.world;
+    engine.gravity.y = 1;
 
     // Create Renderer
     const render = Render.create({
@@ -19,41 +19,49 @@ const Loader = () => {
         width: window.innerWidth,
         height: window.innerHeight,
         wireframes: false,
-        background: "#000",
+        background: "#D9EAFD",
       },
     });
 
-    // Add ground
+    // Add ground and walls
     const ground = Bodies.rectangle(
       window.innerWidth / 2,
       window.innerHeight + 50,
       window.innerWidth,
       100,
-      {
-        isStatic: true,
-        render: { fillStyle: "#000" },
-      }
+      { isStatic: true, render: { fillStyle: "#000" } }
     );
-    World.add(world, ground);
+    const leftWall = Bodies.rectangle(-50, window.innerHeight / 2, 100, window.innerHeight, { isStatic: true });
+    const rightWall = Bodies.rectangle(window.innerWidth + 50, window.innerHeight / 2, 100, window.innerHeight, { isStatic: true });
+    const ceiling = Bodies.rectangle(window.innerWidth / 2, -50, window.innerWidth, 100, { isStatic: true });
 
-    // Add balls
-    const colors = ["#f97316", "#fecf6a", "#ff6b6b", "#3b82f6", "#facc15", "#34d399", "#10b981", "#7c3aed", "#9333ea", "#f472b6"];
-    const balls = [];
-    for (let i = 0; i < 150; i++) {
-      const ball = Bodies.circle(
+    World.add(world, [ground, leftWall, rightWall, ceiling]);
+
+    // Add images
+    const imageUrls = [
+      "creativity.png", "focus.png", "goals.png", "growth.png", "idea.png",
+      "keep.png", "learn.png", "mission.png", "solution.png", "together.png" , "winner.png",
+      "knowledge.png", "motivational.png", "never-give-up.png", "dream.png", "learning.png"
+    ];
+    for (let i = 0; i < 16; i++) {
+      const image = Bodies.rectangle(
         Math.random() * window.innerWidth,
-        Math.random() * -500,
-        20 + Math.random() * 15,
+        Math.random() * -1,
+        120,
+        120,
         {
-          restitution: 0.8,
+          restitution: 1.0,
           render: {
-            fillStyle: colors[Math.floor(Math.random() * colors.length)],
+            sprite: {
+              texture: imageUrls[i],
+              xScale: 0.5,
+              yScale: 0.5,
+            },
           },
         }
       );
-      balls.push(ball);
+      World.add(world, image);
     }
-    World.add(world, balls);
 
     // Add mouse control
     const mouse = Mouse.create(render.canvas);
@@ -70,7 +78,7 @@ const Loader = () => {
 
     // Run engine and renderer
     const runner = Runner.create();
-    Runner.run(runner, engine); // Use Runner.run instead of Engine.run
+    Runner.run(runner, engine);
     Render.run(render);
 
     // Cleanup
@@ -82,11 +90,6 @@ const Loader = () => {
     };
   }, []);
 
-  const handleRedirect = () => {
-    // Redirect to homepage after loader
-    window.location.href = "/"; // Or use `window.location.replace("/")` for a cleaner redirect
-  };
-
   return (
     <div
       className="loader-container"
@@ -97,27 +100,34 @@ const Loader = () => {
         left: 0,
         width: "100%",
         height: "100vh",
-        overflow: "hidden", 
+        overflow: "hidden",
       }}
     >
-      <p className="absolute top-[30%] left-[40%] text-white"> DO You Want to Play again?  Click On Button </p>
-      <p className="absolute top-[35%] left-[37%] text-white"> If You Want to Redirect Home Please Wait for 10 seconds</p>
-      <button
-        className="redirect-button px-8 py-2 bg-[#7C3AED] text-white font-bold rounded-lg"
+    
+      <div
         style={{
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-         
-          border: "none",
-          cursor: "pointer",
-       
+          display: "flex",
+          gap: "20px",
+          zIndex: 1,
         }}
-        onClick={handleRedirect}
       >
-        Play More 😍
-      </button>
+        <button
+          className="redirect-button px-8 py-2 bg-[#7C3AED] text-white font-bold rounded-lg"
+          onClick={() => (window.location.href = "/")}
+        >
+          Play More 😍
+        </button>
+        <button
+          className="stop-loader-button px-8 py-2 bg-[#F97316] text-white font-bold rounded-lg"
+          onClick={stopLoading}
+        >
+          Go To Home  🏠
+        </button>
+      </div>
     </div>
   );
 };

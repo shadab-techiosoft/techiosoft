@@ -24,16 +24,19 @@ function App() {
   useLenis();
 
   useEffect(() => {
- 
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 10000); 
+    }, 500000);
 
     return () => clearTimeout(timer);
   }, []);
 
+  const stopLoading = () => {
+    setIsLoading(false);
+  };
+
   if (isLoading) {
-    return <Loader />;
+    return <Loader stopLoading={stopLoading} />;
   }
 
   return (

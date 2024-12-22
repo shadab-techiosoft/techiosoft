@@ -48,7 +48,7 @@ const About = () => {
     }, []);
 
     return (
-        <div className="p-8 h-full  shadow-lg rounded-lg">
+        <div className="p-8 h-full  ">
             <div className="mt-4">
                 <h1 className="text-4xl font-bold my-4 uppercase">Navigating digital transformation, One step ahead</h1>
                 <h3 className='text-2xl font-light'>Simplifying Data Modernization & Management</h3>
