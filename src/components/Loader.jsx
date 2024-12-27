@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from "react";
+import { FaChevronRight, FaSyncAlt } from "react-icons/fa";
+
 import Matter from "matter-js";
 
 const Loader = ({ stopLoading }) => {
@@ -116,16 +118,16 @@ const Loader = ({ stopLoading }) => {
         }}
       >
         <button
-          className="redirect-button px-8 py-2 bg-[#7C3AED] text-white font-bold rounded-lg"
+          className="redirect-button px-12 flex  items-center gap-2 py-2 bg-[#000] text-white font-bold rounded-lg"
           onClick={() => (window.location.href = "/")}
         >
-          Play More 😍
+          Play More <FaSyncAlt />
         </button>
         <button
-          className="stop-loader-button px-8 py-2 bg-[#F97316] text-white font-bold rounded-lg"
+          className="stop-loader-button px-12 flex  items-center gap-2 py-2 bg-[#000] text-white font-bold rounded-lg"
           onClick={stopLoading}
         >
-          Go To Home  🏠
+          Go To Home  <FaChevronRight />
         </button>
       </div>
     </div>
